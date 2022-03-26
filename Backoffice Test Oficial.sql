@@ -1,3 +1,4 @@
+-- pull values according to statuses
 with 
 
 start as (
@@ -16,7 +17,7 @@ finish as (
     from status
     where status = 'approved'
 ),
-
+-- group data in the desired way
 final as (
     select distinct
         c.cnpj,
@@ -37,7 +38,7 @@ select distinct
 from final
 
 ;
-
+-- same statuses sub queries
 with 
 
 start as (
@@ -65,7 +66,7 @@ final as (
     left join start st on st.user_id = c.user_id
     left join finish f on f.user_id = c.user_id
 ),
-
+-- avg, min, max view
 contas as (
 select distinct
 avg(raw_dif_time) as avg_approval_minute,
@@ -73,7 +74,7 @@ min(raw_dif_time) as min_approval_minute,
 max(raw_dif_time) as max_approval_minute
 from final
 )
-
+-- as before, the views are in hh:mm and full minutes
 select distinct
 (CONVERT(varchar, (avg_approval_minute/60)) + ':' + RIGHT('0' + CONVERT(varchar, (avg_approval_minute%60)), 2)) as avg_approval_time,
 avg_approval_minute,
@@ -84,7 +85,7 @@ max_approval_minute
 from contas
 
 ;
-
+-- same statuses sub queries but pulling the full timetable to check the information
 with 
 
 pending as (
@@ -129,7 +130,7 @@ final as (
     left join finish f on f.user_id = c.user_id
     left join pending p on p.user_id = c.user_id
 )
-
+-- pulling information for negative value analysis
 select distinct
     user_id,
     cnpj,
@@ -143,7 +144,7 @@ from final
 where time_in_min < 0
 
 ;
-
+-- for the selected cases, pull all the information
 select distinct
 *
 from clientes c 
@@ -151,7 +152,7 @@ left join status s on s.user_id = c.user_id
 where c.user_id in ('845038','908341','908341','986307')
 
 ;
-
+-- same statuses sub queries but to pull the most recent case, group by most recent date
 with 
 
 start as (
@@ -172,7 +173,7 @@ finish as (
     from status
     where status = 'approved'
 ),
-
+-- select 1st line (rowno) to take as parameter the most recent date (sorted desc)
 final as (
     select distinct
         c.cnpj,
@@ -184,7 +185,7 @@ final as (
     left join start st on st.user_id = c.user_id and st.rowno = 1
     left join finish f on f.user_id = c.user_id and f.rowno = 1
 )
-
+-- values without negative time
 select distinct
     cnpj,
     purchase_date,
@@ -193,7 +194,7 @@ select distinct
 from final
 
 ;
-
+-- same statuses sub queries
 with 
 
 start as (
@@ -231,7 +232,7 @@ min(raw_dif_time) as min_approval_minute,
 max(raw_dif_time) as max_approval_minute
 from final
 )
-
+-- values without negative time
 select distinct
 (CONVERT(varchar, (avg_approval_minute/60)) + ':' + RIGHT('0' + CONVERT(varchar, (avg_approval_minute%60)), 2)) as avg_approval_time,
 avg_approval_minute,
