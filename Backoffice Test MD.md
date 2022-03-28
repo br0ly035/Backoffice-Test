@@ -11,7 +11,7 @@ The whole process when a payment is made, also known as credit card transaction 
 Acquirer has the function of settling the financial transactions carried out through the credit and/or debit card. They communicate directly with the card brands/flags and the issuing banks.
 When the purchase is approved between the card association and the financial institution, the acquirer receives the money from the card issuer and passes it on to the merchant.
 In the case of sub acquirers, institutions such as "PagSeguro", Paypal, among others, are responsible for intermediating payments between all parties involved, such as acquirers, merchants and customers. 
-This service is directed at data security with protection against fraud. In view of this, it encompasses all stages of the process, including the gateways.
+This service is directed at data security with protection against fraud, encompassing all stages of the process, including the gateways.
 Therefore, the payment gateways have the role of processing the information at the moment the purchase is finalised at the checkout. In other words to effect the purchase.
 The KYC (Know Your Customes) is the process of analysis of customer data that is consistent with the movements and origins of their financial resources, verifying the authenticity of the information and data validation. 
 For institutions to know their customers in depth, it is necessary to establish which data will be collected and stored. For example, information on income, assets and investments. This way, the bank can point out suspicious transactions. 
